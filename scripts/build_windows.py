@@ -1,4 +1,4 @@
-"""Assemble the approved Windows dependencies into a portable folder and ZIP."""
+"""Build a portable Windows folder and ZIP."""
 
 import argparse
 import hashlib
@@ -31,7 +31,13 @@ def build(runtime):
     with zipfile.ZipFile(python_zip) as archive:
         archive.extractall(folder)
     (folder / "python314._pth").write_text("python314.zip\n.\nimport site\n")
-    for name in ("msc_logger", "desktop", "tests", "scripts", "docs", "output"):
+    # Remove documentation left by older packages before copying the app.
+    for name in ("docs", "output"):
+        old_documents = folder / name
+        if old_documents.exists():
+            shutil.rmtree(old_documents)
+    (folder / "scripts" / "build_explanations.py").unlink(missing_ok=True)
+    for name in ("msc_logger", "desktop", "tests", "scripts"):
         shutil.copytree(ROOT / name, folder / name, dirs_exist_ok=True,
                         ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "node_modules"))
     for name in ("run.py", "LICENSE", "README.md"):

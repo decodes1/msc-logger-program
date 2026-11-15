@@ -45,7 +45,6 @@ The main folders are:
 - `desktop/` - Windows app window
 - `tests/` - automated tests
 - `scripts/` - packaging and backup recovery tools
-- `output/pdf/` - short code explanations and a run guide
 
 ## Tests
 
@@ -68,18 +67,27 @@ You can download a backup from **Demo & data**. To restore one, close the app an
 run `Restore backup.cmd`. Keep a backup somewhere else in case the computer or
 drive fails.
 
-## More information
+## Building the Windows ZIP
 
-- [Demo guide](docs/DEMO.md)
-- [Dependencies and build downloads](docs/DEPENDENCIES.md)
-- [Project requirements and sources](docs/REQUIREMENTS.md)
+Place these downloads in `tmp/runtime`:
 
-To build the Windows ZIP, put the downloads listed in the dependency guide into
-`tmp/runtime`, then run:
+- [Python 3.14.10 embeddable package, 64-bit](https://www.python.org/downloads/release/python-31410/)
+  as `python-3.14.10-embed-amd64.zip`
+- [Microsoft WebView2 SDK 1.0.4314.35](https://www.nuget.org/packages/Microsoft.Web.WebView2/1.0.4314.35)
+  as `webview2.nupkg`
+- [Microsoft WebView2 setup](https://go.microsoft.com/fwlink/p/?LinkId=2124703)
+  as `MicrosoftEdgeWebview2Setup.exe`
+
+Then run:
 
 ```sh
 python scripts/build_windows.py
 ```
 
-This project used the supplied HTML prototype and programming PDFs as references
-and was developed with AI assistance. See the requirements document for details.
+The builder checks the Python and SDK downloads before creating the ZIP.
+
+## References
+
+The project uses the Crew Maintenance Assistant HTML prototype and the MEC
+programming PDFs as references. Code explanations and guides are kept separately
+in `MSC Logger Explanations`, next to the project folder.
